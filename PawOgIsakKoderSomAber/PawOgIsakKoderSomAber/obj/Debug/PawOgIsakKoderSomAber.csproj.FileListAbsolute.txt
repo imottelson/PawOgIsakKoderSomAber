@@ -1,0 +1,9 @@
+c:\users\ism\documents\visual studio 2015\Projects\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\bin\Debug\PawOgIsakKoderSomAber.exe.config
+C:\PawOgIsakKoderSomAber\Projekt\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\bin\Debug\PawOgIsakKoderSomAber.exe.config
+C:\PawOgIsakKoderSomAber\Projekt\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\bin\Debug\PawOgIsakKoderSomAber.exe
+C:\PawOgIsakKoderSomAber\Projekt\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\bin\Debug\PawOgIsakKoderSomAber.pdb
+C:\PawOgIsakKoderSomAber\Projekt\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\bin\Debug\MathNet.Numerics.dll
+C:\PawOgIsakKoderSomAber\Projekt\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\bin\Debug\MathNet.Numerics.xml
+C:\PawOgIsakKoderSomAber\Projekt\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\obj\Debug\PawOgIsakKoderSomAber.csprojResolveAssemblyReference.cache
+C:\PawOgIsakKoderSomAber\Projekt\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\obj\Debug\PawOgIsakKoderSomAber.exe
+C:\PawOgIsakKoderSomAber\Projekt\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\obj\Debug\PawOgIsakKoderSomAber.pdb
