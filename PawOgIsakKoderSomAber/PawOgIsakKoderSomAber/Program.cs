@@ -10,23 +10,16 @@ namespace PawOgIsakKoderSomAber
 {
     class Program
     {
-
-
         static void Main(string[] args)
         {
             NeuralNetwork network = new NeuralNetwork(new List<int> {784, 30, 10});
 
             var trainingData = new List<DataPoint>(); // TODO: Load the data ???
-            var testgData = new List<DataPoint>(); // TODO: Load the data ???
+            var testData = new List<DataPoint>(); // TODO: Load the data ???
             
-            network.TrainingDataList = trainingData;
-            network.TestDataList = testgData;
-            
-
-            for(int k=0;k<network.NumberOfUpdates;k++)
+            for(int k=0;k<50;k++)
             {
-                var test = new List<DataPoint>();
-                network.Update((List<DataPoint>)MathNet.Numerics.Combinatorics.SelectCombination(network.TrainingDataList,network.BatchSize));
+                network.TrainNetwork((List<DataPoint>)MathNet.Numerics.Combinatorics.SelectCombination(trainingData, 30));
             }
 
         }
