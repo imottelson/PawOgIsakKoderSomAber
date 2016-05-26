@@ -7,3 +7,11 @@ C:\PawOgIsakKoderSomAber\Projekt\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\bin
 C:\PawOgIsakKoderSomAber\Projekt\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\obj\Debug\PawOgIsakKoderSomAber.csprojResolveAssemblyReference.cache
 C:\PawOgIsakKoderSomAber\Projekt\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\obj\Debug\PawOgIsakKoderSomAber.exe
 C:\PawOgIsakKoderSomAber\Projekt\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\obj\Debug\PawOgIsakKoderSomAber.pdb
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\bin\Debug\PawOgIsakKoderSomAber.exe.config
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\obj\Debug\PawOgIsakKoderSomAber.exe
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\obj\Debug\PawOgIsakKoderSomAber.pdb
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\bin\Debug\PawOgIsakKoderSomAber.exe
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\bin\Debug\PawOgIsakKoderSomAber.pdb
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\bin\Debug\MathNet.Numerics.dll
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\bin\Debug\MathNet.Numerics.xml
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\obj\Debug\PawOgIsakKoderSomAber.csprojResolveAssemblyReference.cache

@@ -32,14 +32,22 @@ namespace PawOgIsakKoderSomAber
             return result/data.Count;
         }
     
+        //Computes the errors of a network in a given data point for a .
+        //TODO: maybe takes a network as input?
         public override List<Vector> ComputeErrors(DataPoint point, List<Matrix> weights, List<Vector> activations)
         {
-            int layers = weights.Count();
+            int layers = weights.Count+1;
 
             List<Vector> errors = new List<Vector>(layers-1);
-            Vector currentError = activations[layers - 1];
+            //TODO: refactor this?
+            //set currentError equal to the input to the output layer
+            var currentError = activations[layers - 1];
             currentError.Map(SigmaDiff, currentError);
-            currentError = (Vector)point.Output.Subtract(activations[layers]).PointwiseMultiply(currentError);
+
+            //Gradient of Cost with respect to output of the neural network:
+            var grad = (Vector) point.Output.Subtract(activations[layers - 1]);
+
+            currentError = (Vector) grad.PointwiseMultiply(currentError);
             errors[layers - 1] = currentError;
             for (int i = layers - 1; i > 1; i--)
             {

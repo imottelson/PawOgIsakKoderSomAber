@@ -14,20 +14,22 @@ namespace PawOgIsakKoderSomAber.Interfaces
             return EvaluateWithActivationList(input, weights, biases)[weights.Count + 1];
         }
 
+        //Computes the output of the network given a list of activations, as well as the activations of each layer. The first vector of activations is the input and the last vecotr is the output.
+        //TODO: maybe takes a network as input? 
         public List<Vector> EvaluateWithActivationList(Vector input, List<Matrix> weights, List<Vector> biases)
         {
             int layers = weights.Count + 1;
+            //The entries in the result list correspond to the activations of a given layer
             List<Vector> result = new List<Vector>(layers);
-            input.Map(Sigma, input);
-
+            result[0] = input;
+            
             Vector currentLayer = input;
             for (int i = 0; i < layers; i++)
             {
                 currentLayer = (Vector)weights[i].Multiply(currentLayer).Add(biases[i]);
-                result[i] = currentLayer;
                 currentLayer.Map(Sigma, currentLayer);
+                result[i+1] = currentLayer;
             }
-            result[layers] = currentLayer;
             return result;
         }
         public abstract double Sigma(double x);
