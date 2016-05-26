@@ -12,14 +12,14 @@ namespace PawOgIsakKoderSomAber
     {
         static void Main(string[] args)
         {
-            NeuralNetwork network = new NeuralNetwork(new List<int> {784, 30, 10});
+            NeuralNetwork network = new NeuralNetwork(new List<int> {2, 3, 1});
 
-            var trainingData = new List<DataPoint>(); // TODO: Load the data ???
+            var trainingData = new List<DataPoint> {new DataPoint("En abe")}; // TODO: Load the data ???
             var testData = new List<DataPoint>(); // TODO: Load the data ???
             
             for(int k=0;k<50;k++)
-            {
-                network.TrainNetwork((List<DataPoint>)MathNet.Numerics.Combinatorics.SelectCombination(trainingData, 30));
+            { 
+                network.TrainNetwork(trainingData);
             }
 
         }

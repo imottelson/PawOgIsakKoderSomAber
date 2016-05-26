@@ -11,25 +11,26 @@ namespace PawOgIsakKoderSomAber.Interfaces
     {
         public Vector Evaluate(Vector input, List<Matrix> weights, List<Vector> biases)
         {
-            return EvaluateWithActivationList(input, weights, biases)[weights.Count + 1];
+            return EvaluateWithWeightedInputs(input, weights, biases)[weights.Count + 1];
         }
 
-        //Computes the output of the network given a list of activations, as well as the activations of each layer. The first vector of activations is the input and the last vecotr is the output.
+        //Computes the output of the network and the weighted inputs along the way of each layer. The last vecttr is the output.
         //TODO: maybe takes a network as input? 
-        public List<Vector> EvaluateWithActivationList(Vector input, List<Matrix> weights, List<Vector> biases)
+        public List<Vector> EvaluateWithWeightedInputs(Vector input, List<Matrix> weights, List<Vector> biases)
         {
             int layers = weights.Count + 1;
-            //The entries in the result list correspond to the activations of a given layer
-            List<Vector> result = new List<Vector>(layers);
-            result[0] = input;
+            //The entries in the result list correspond to the activations of a given layer, first vector is input
+            List<Vector> result = new List<Vector>(layers+1);
+            result.Insert(0, input);
             
             Vector currentLayer = input;
-            for (int i = 0; i < layers; i++)
+            for (int i = 0; i < layers-1; i++)
             {
                 currentLayer = (Vector)weights[i].Multiply(currentLayer).Add(biases[i]);
+                result.Insert(i+1, currentLayer);
                 currentLayer.Map(Sigma, currentLayer);
-                result[i+1] = currentLayer;
             }
+            result.Insert(layers, currentLayer);
             return result;
         }
         public abstract double Sigma(double x);
