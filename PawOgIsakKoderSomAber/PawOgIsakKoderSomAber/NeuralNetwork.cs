@@ -29,7 +29,7 @@ namespace PawOgIsakKoderSomAber
         {
             int batchSize = batch.Count;
             //Each entry contains all the activations of the network corresponding to a given data point
-            List<List<Vector>> activationsList = new List<List<Vector>>(batchSize);
+            List<List<Vector>> weightedInputsList = new List<List<Vector>>(batchSize);
             //Each entry contains all the errors of the netork corresponding to a given data point
             List<List<Vector>> errorsList = new List<List<Vector>>(batchSize);
 
@@ -37,11 +37,11 @@ namespace PawOgIsakKoderSomAber
             for (int i = 0; i < batchSize; i++)
             {
                 //Gets the activations for each layer:
-                List<Vector> activations = Utilities.EvaluateWithActivationList(batch[i].Input, WeightsList, BiasesList);
+                List<Vector> weightedInputs = Utilities.EvaluateWithWeightedInputs(batch[i].Input, WeightsList, BiasesList);
                 //Set the activations
-                activationsList[i] = activations;
+                weightedInputsList.Insert(i, weightedInputs);
                 //Set the errors
-                errorsList[i] = Utilities.ComputeErrors(batch[i], WeightsList, activations);
+                errorsList.Insert(i, Utilities.ComputeErrors(batch[i], WeightsList, weightedInputs));
             }
             List<Vector> errorSum = errorsList[0];
             int errorVectors = errorSum.Count;
@@ -49,7 +49,7 @@ namespace PawOgIsakKoderSomAber
             {
                 for (int j = 0; j < errorVectors; j++)
                 {
-                    errorSum[j] = (Vector)errorSum[j].Add(errorsList[i][j]);
+                    errorSum.Insert(j, (Vector)errorSum[j].Add(errorsList[i][j]));
                 }
             }
 
@@ -67,7 +67,9 @@ namespace PawOgIsakKoderSomAber
                     double sum = 0;
                     for (int j = 0; j < batchSize; j++)
                     {
-                        sum += errorsList[j][n]*activationsList[j][m];
+                        var activation = this.Utilities.Sigma(weightedInputsList[j][i][m]); // out of range for 0 1 1
+                        var error = errorsList[j][i][n];
+                        sum += error*activation;
                     }
                     return value - StepSize*sum/batchSize;
                 });
@@ -76,7 +78,7 @@ namespace PawOgIsakKoderSomAber
 
         public void TrainNetwork(DataPoint point)
         {
-            List<Vector> activations = Utilities.EvaluateWithActivationList(point.Input, WeightsList, BiasesList);
+            List<Vector> activations = Utilities.EvaluateWithWeightedInputs(point.Input, WeightsList, BiasesList);
             List<Vector> errors = Utilities.ComputeErrors(point, WeightsList, activations);
 
             int biasesCount = this.BiasesList.Count;
@@ -88,7 +90,7 @@ namespace PawOgIsakKoderSomAber
             int weightsCount = this.WeightsList.Count;
             for (int i = 0; i < weightsCount; i++)
             {
-                this.WeightsList[i].MapIndexed((m,n,value) => { return value - StepSize*errors[i][m]*activations[i][n]; });
+                this.WeightsList[i].MapIndexed((m,n,value) => { return value - StepSize*errors[i][m]*activations[i+1][n]; });
             }
         }
 
@@ -105,8 +107,8 @@ namespace PawOgIsakKoderSomAber
             List<Matrix> weights = new List<Matrix>(layers-1);
             for (int i = 0; i < layers-1; i++)
             {
-                biases[i] = (Vector)Vector.Build.Random(layerSizes[i]);
-                weights[i] = (Matrix) Matrix.Build.Random(layerSizes[i], layerSizes[i + 1]);
+                biases.Insert(i, (Vector)Vector.Build.Random(layerSizes[i+1]));
+                weights.Insert(i, (Matrix) Matrix.Build.Random(layerSizes[i+1], layerSizes[i]));
             }
             this.WeightsList = weights;
             this.BiasesList = biases;

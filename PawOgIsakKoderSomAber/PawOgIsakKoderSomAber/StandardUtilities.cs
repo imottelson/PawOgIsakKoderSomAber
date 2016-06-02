@@ -34,27 +34,33 @@ namespace PawOgIsakKoderSomAber
     
         //Computes the errors of a network in a given data point for a .
         //TODO: maybe takes a network as input?
-        public override List<Vector> ComputeErrors(DataPoint point, List<Matrix> weights, List<Vector> activations)
+        public override List<Vector> ComputeErrors(DataPoint point, List<Matrix> weights, List<Vector> weightedInputs)
         {
             int layers = weights.Count+1;
 
             List<Vector> errors = new List<Vector>(layers-1);
             //TODO: refactor this?
             //set currentError equal to the input to the output layer
-            var currentError = activations[layers - 1];
+            var currentError = weightedInputs[layers - 1];
             currentError.Map(SigmaDiff, currentError);
 
             //Gradient of Cost with respect to output of the neural network:
-            var grad = (Vector) point.Output.Subtract(activations[layers - 1]);
+            var grad = (Vector) point.Output.Subtract(weightedInputs[layers]);
 
+            //sets error of last layer
             currentError = (Vector) grad.PointwiseMultiply(currentError);
-            errors[layers - 1] = currentError;
-            for (int i = layers - 1; i > 1; i--)
+            errors.Insert(0, currentError);
+
+            //succesively sets errors in layers 
+            for (int i = 0; i < layers-2; i++)
             {
-                currentError.Map(SigmaDiff, currentError);
-                currentError = (Vector)weights[i].TransposeThisAndMultiply(currentError);
-                errors[i] = currentError;
+                currentError = (Vector)weights[layers-2-i].TransposeThisAndMultiply(currentError);
+                var applySigmaDiff = new DenseVector(weightedInputs[layers-2-i].Count);
+                weightedInputs[layers - 2 - i].Map(SigmaDiff, applySigmaDiff);
+                currentError = (Vector) currentError.PointwiseMultiply(applySigmaDiff);
+                errors.Insert(i+1, currentError);
             }
+            errors.Reverse();
             return errors;
         }  
     }
