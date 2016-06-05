@@ -7,7 +7,7 @@ using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace PawOgIsakKoderSomAber
 {
-    struct DataPoint
+    public struct DataPoint
     {
         public Vector Input;
         public Vector Output;
