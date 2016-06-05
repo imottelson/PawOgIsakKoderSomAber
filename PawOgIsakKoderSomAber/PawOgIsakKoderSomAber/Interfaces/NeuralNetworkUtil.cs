@@ -19,18 +19,19 @@ namespace PawOgIsakKoderSomAber.Interfaces
         public List<Vector> EvaluateWithWeightedInputs(Vector input, List<Matrix> weights, List<Vector> biases)
         {
             int layers = weights.Count + 1;
-            //The entries in the result list correspond to the activations of a given layer, first vector is input
+
+            //The entries in the result list correspond to the weighted input of a given layer, first vector is input
             List<Vector> result = new List<Vector>(layers+1);
-            result.Insert(0, input);
+            result.Add(input);
             
             Vector currentLayer = input;
             for (int i = 0; i < layers-1; i++)
             {
                 currentLayer = (Vector)weights[i].Multiply(currentLayer).Add(biases[i]);
-                result.Insert(i+1, currentLayer);
+                result.Add(currentLayer);
                 currentLayer.Map(Sigma, currentLayer);
             }
-            result.Insert(layers, currentLayer);
+            result.Add(currentLayer);
             return result;
         }
         public abstract double Sigma(double x);

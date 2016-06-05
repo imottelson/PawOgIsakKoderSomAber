@@ -13,24 +13,24 @@ namespace PawOgIsakKoderSomAber
 {
     public static class DataHelper
     {
-        public static List<DataPoint> LoadData()
+        public static List<DataPoint> LoadData(string imagePath, string labelPath)
         {
             var data = new List<DataPoint>();
 
             
-
-            FileStream imageStream = new FileStream(@"../../../MNIST/train-images.idx3-ubyte",FileMode.Open);
+            FileStream imageStream = new FileStream(@"../../../MNIST/train-images.idx3-ubyte", FileMode.Open);
             FileStream labelStream = new FileStream(@"../../../MNIST/train-labels.idx1-ubyte", FileMode.Open);
 
-            BinaryReader imgReader = new BinaryReader(imageStream);
-            BinaryReader labelReader =new BinaryReader(labelStream);
+            BinaryReader imageReader = new BinaryReader(imageStream);
+            BinaryReader labelReader = new BinaryReader(labelStream);
+            
 
 
             //no idea what these things mean
-            int magic1 = imgReader.ReadInt32();
-            int numImages1 = imgReader.ReadInt32();
-            int numRows1 = imgReader.ReadInt32();
-            int numCols1 = imgReader.ReadInt32();
+            int magic1 = imageReader.ReadInt32();
+            int numImages1 = imageReader.ReadInt32();
+            int numRows1 = imageReader.ReadInt32();
+            int numCols1 = imageReader.ReadInt32();
 
             int magic2 = labelReader.ReadInt32();
             int numLabels = labelReader.ReadInt32();
@@ -45,7 +45,7 @@ namespace PawOgIsakKoderSomAber
             for (int j = 0; j < numImages ; j++)
             {
                 labelArray[j] = new double[10];
-                labelArray[j][labelStream.ReadByte()] = 1;
+                labelArray[j][labelReader.ReadByte()] = 1;
             }
                 
                 
@@ -54,7 +54,7 @@ namespace PawOgIsakKoderSomAber
                 for (int i = 0; i < pixelsPrImage; i++)
                 {
                     dataArray[j] = new double[pixelsPrImage];
-                    dataArray[j][i] = imgReader.ReadByte();
+                    dataArray[j][i] = (double)imageReader.ReadByte();
                 }
             for(int j=0;j<numImages;j++)
                 data.Add(new DataPoint()
@@ -62,7 +62,15 @@ namespace PawOgIsakKoderSomAber
                     Input = new DenseVector(dataArray[j]),
                     Output = new DenseVector(labelArray[j])
                 });
-            
+            imageStream.Close();
+            imageReader.Close();
+            labelStream.Close();
+            labelReader.Close();
+
+
+
+
+
             return data;
         }  
     }
