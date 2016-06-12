@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 using MathNet.Numerics.LinearAlgebra.Double;
 using PawOgIsakKoderSomAber.Interfaces;
 
@@ -16,12 +17,12 @@ namespace PawOgIsakKoderSomAber
 
         public List<Matrix> WeightsList;
 
-        public NeuralNetworkUtil Utilities { private get; set; }
+        public NeuralNetworkUtil Utilities { get; set; }
 
         //Computes the output of the neural network given the input vector
-        public Vector Evaulate(Vector input)
+        public int Evaulate(Vector input)
         {
-            return Utilities.Evaluate(input, WeightsList, BiasesList);
+            return Utilities.Evaluate(input, WeightsList, BiasesList).AbsoluteMaximumIndex();
         }
 
         //Updates the weights and biases for the network based on the gradient of the cost function of a given batch
@@ -59,44 +60,106 @@ namespace PawOgIsakKoderSomAber
             int biasesCount = BiasesList.Count;
             for (int i = 0; i < biasesCount; i++)
             {
-                BiasesList[i] = (Vector)BiasesList[i].MapIndexed((j, value) => { return value - StepSize*errorSum[i][j]/batchSize; });
+                //var x = BiasesList[i];
+                //var y = (Vector)BiasesList[i].MapIndexed((j, value) => value - StepSize*errorSum[i][j]/batchSize);
+                //BiasesList[i] = y;
+                Vector delta_b = (Vector) errorSum[i];
+                BiasesList[i] = (Vector) BiasesList[i].Subtract(delta_b.Multiply(StepSize/batchSize));
             }
 
             int weightsCount = WeightsList.Count;
             for (int i = 0; i < weightsCount; i++)
             {
-                WeightsList[i] = (Matrix)WeightsList[i].MapIndexed((n, m, value) =>
+                Matrix delta_w =(Matrix) errorsList[0][i].OuterProduct(weightedInputsList[0][i].Map(Utilities.Sigma));
+                for (int j = 1; j < batchSize; j++)
                 {
-                    double sum = 0;
-                    for (int j = 0; j < batchSize; j++)
-                    {
-                        var activation = Utilities.Sigma(weightedInputsList[j][i][m]);
-                        var error = errorsList[j][i][n];
-                        sum += error*activation;
-                    }
-                    return value - StepSize*sum/batchSize;
-                });
+                    delta_w =
+                        (Matrix)
+                            delta_w.Add(errorsList[j][i].OuterProduct(weightedInputsList[j][i].Map(Utilities.Sigma)));
+                    
+                }
+                WeightsList[i] = (Matrix)WeightsList[i].Subtract(delta_w.Multiply(StepSize / batchSize));
+
+
+                //WeightsList[i] = (Matrix)WeightsList[i].MapIndexed((n, m, value) =>
+                //{
+                //    double sum = 0;
+                //    for (int j = 0; j < batchSize; j++)
+                //    {
+                //        var activation = Utilities.Sigma(weightedInputsList[j][i][m]);
+                //        var error = errorsList[j][i][n];
+                //        sum += error*activation;
+                //    }
+                //    return value - StepSize*sum/batchSize;
+                //});
             }
         }
 
         //not needed?
-        public void TrainNetwork(DataPoint point)
+        public void TrainNetwork(DataPoint data)
         {
-            List<Vector> activations = Utilities.EvaluateWithWeightedInputs(point.Input, WeightsList, BiasesList);
-            List<Vector> errors = Utilities.ComputeErrors(point, WeightsList, activations);
+            List<Vector> activations = GetActivations(data);
+            List<Vector> inputs = GetInputs(data);
+            List<Vector> errors = GetErrors(inputs, data);
 
             int biasesCount = BiasesList.Count;
             for (int i = 0; i < biasesCount; i++)
             {
-                BiasesList[i].MapIndexed((j, value) => { return value - StepSize*errors[i][j]; });
+               BiasesList[i].MapIndexed((j, value) => value - StepSize*errors[i][j]);
             }
 
             int weightsCount = WeightsList.Count;
             for (int i = 0; i < weightsCount; i++)
             {
-                WeightsList[i].MapIndexed((m,n,value) => { return value - StepSize*errors[i][m]*activations[i+1][n]; });
+               WeightsList[i].MapIndexed((m,n,value) => value - StepSize*errors[i][m]*activations[i+1][n]);
             }
         }
+        
+        public List<Vector> GetActivations(DataPoint data)
+        {
+            var list = new List<Vector>();
+            list.Add(data.Input);
+            for (int i = 1; i < WeightsList.Count; i++)
+            {
+                var x = (Vector)(WeightsList[i - 1].Multiply(list[i - 1]).Add(BiasesList[i - 1])).Map(Utilities.Sigma);
+                list.Add(x);
+            }
+            return list;
+        }
+
+        public List<Vector> GetInputs(DataPoint data)
+        {
+            var list = new List<Vector>();
+            var x = (Vector) (WeightsList[0].Multiply(data.Input).Add(BiasesList[0]));
+            list.Add(x);
+            for (int i = 1; i < WeightsList.Count; i++)
+            {
+                var a = list[i - 1].Map(Utilities.Sigma);
+                var z = (Vector)(WeightsList[0].Multiply(a).Add(BiasesList[0]));
+                list.Add(z);
+            }
+            return list;
+        }
+
+        public List<Vector> GetErrors(List<Vector> inputs, DataPoint data)
+        {
+            var list = new List<Vector>();
+            var a = inputs.Last().Map(Utilities.Sigma);
+            var grad = (Vector) (a.Subtract(data.Output)).PointwiseMultiply(inputs.Last());
+            var x= (Vector)grad.PointwiseMultiply(inputs.Last().Map(Utilities.SigmaDiff));
+            list.Add(x);
+            for (int i = WeightsList.Count-1; i > 1; i--)
+            {
+                var d =
+                   (Vector)(WeightsList[i + 1].Transpose().Multiply(list[i + 1])).PointwiseMultiply(
+                        inputs[i].Map(Utilities.SigmaDiff));
+                list.Add(d);
+            }
+            list.Reverse();
+            return list;
+        } 
+               
+
 
         private NeuralNetwork(double stepSize)
         {

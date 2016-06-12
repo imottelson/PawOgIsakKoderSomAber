@@ -11,15 +11,36 @@ namespace PawOgIsakKoderSomAber
 {
     class StandardUtilities : NeuralNetworkUtil
     {
+        //TODO: work out how to apply functions to vectors correctly!
         public override double Sigma(double x)
         {
             return 1.0/(1.0 + Math.Exp(-x));
         }
 
-        private double SigmaDiff(double x)
+        public Vector SigmaVector(Vector x)
         {
-            return Math.Exp(x)/Math.Pow(Math.Exp(x) + 1, 2);
+            var output = new DenseVector(x.Count);
+            for(int i =0;i<x.Count;i++)
+            {
+                output[i] = Sigma(x[i]);
+            }
+            return output;
         }
+        public override double SigmaDiff(double x)
+        {
+            return Math.Exp(-x)/Math.Pow(Math.Exp(-x) + 1.0, 2);
+        }
+
+        public Vector SigmaDiffVector(Vector x)
+        {
+            var output = new DenseVector(x.Count);
+            for (int i = 0; i < x.Count; i++)
+            {
+                output[i] = SigmaDiff(x[i]);
+            }
+            return output;
+        }
+
 
         public override double Cost(List<DataPoint> data, List<Matrix> weights, List<Vector> biases)
         {
@@ -41,24 +62,27 @@ namespace PawOgIsakKoderSomAber
             List<Vector> errors = new List<Vector>(layers-1);
             //TODO: refactor this?
             //set currentError equal to the input to the output layer
-            var currentError = weightedInputs[layers - 1];
-            currentError.Map(SigmaDiff, currentError);
+            var currentError = (Vector) weightedInputs[layers - 1].Map(SigmaDiff);
+            //currentError.Map(SigmaDiff, currentError);
 
             //Gradient of Cost with respect to output of the neural network:
-            var grad = (Vector) point.Output.Subtract(weightedInputs[layers]);
+            var grad = (Vector)weightedInputs[layers].Subtract(point.Output);
 
             //sets error of last layer
             currentError = (Vector) grad.PointwiseMultiply(currentError);
-            errors.Insert(0, currentError);
+            errors.Add(currentError);
 
             //succesively sets errors in layers 
             for (int i = 0; i < layers-2; i++)
             {
-                currentError = (Vector)weights[layers-2-i].TransposeThisAndMultiply(currentError);
-                var applySigmaDiff = new DenseVector(weightedInputs[layers-2-i].Count);
-                weightedInputs[layers - 2 - i].Map(SigmaDiff, applySigmaDiff);
-                currentError = (Vector) currentError.PointwiseMultiply(applySigmaDiff);
-                errors.Insert(i+1, currentError);
+                //currentError = (Vector)weights[layers-2-i].TransposeThisAndMultiply(currentError);
+                //var applySigmaDiff = new DenseVector(weightedInputs[layers-2-i].Count);
+                //weightedInputs[layers - 2 - i].Map(SigmaDiff, applySigmaDiff);
+                //currentError = (Vector) currentError.PointwiseMultiply(applySigmaDiff);
+                //errors.Add(currentError);
+                var x = (Vector)weights[layers - 2 - i].TransposeThisAndMultiply(errors[i]);
+                var y = (Vector)weightedInputs[layers - 2 - i].Map(SigmaDiff);
+                errors.Add((Vector) x.PointwiseMultiply(y));
             }
             errors.Reverse();
             return errors;

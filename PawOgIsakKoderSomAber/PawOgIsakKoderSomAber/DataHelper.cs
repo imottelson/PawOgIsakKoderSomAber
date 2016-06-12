@@ -47,15 +47,19 @@ namespace PawOgIsakKoderSomAber
                 labelArray[j] = new double[10];
                 labelArray[j][labelReader.ReadByte()] = 1;
             }
-                
-                
 
-            for(int j=0; j<numImages;j++)
+
+
+            for (int j = 0; j < numImages; j++)
+            {
+                dataArray[j] = new double[pixelsPrImage];
                 for (int i = 0; i < pixelsPrImage; i++)
                 {
-                    dataArray[j] = new double[pixelsPrImage];
-                    dataArray[j][i] = (double)imageReader.ReadByte();
+                    byte b = imageReader.ReadByte();
+                    dataArray[j][i] = Convert.ToDouble(b)/255;
                 }
+            }
+                
             for(int j=0;j<numImages;j++)
                 data.Add(new DataPoint()
                 {
