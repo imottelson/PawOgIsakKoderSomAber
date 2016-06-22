@@ -61,27 +61,20 @@ namespace PawOgIsakKoderSomAber
 
             List<Vector> errors = new List<Vector>(layers-1);
             //TODO: refactor this?
-            //set currentError equal to the input to the output layer
-            var currentError = (Vector) weightedInputs[layers - 1].Map(SigmaDiff);
-            //currentError.Map(SigmaDiff, currentError);
+            var currentError = (Vector)weightedInputs[layers - 2].Map(SigmaDiff);
 
             //Gradient of Cost with respect to output of the neural network:
-            var grad = (Vector)weightedInputs[layers].Subtract(point.Output);
+            var grad = (Vector)weightedInputs[layers-1].Subtract(point.Output);
 
             //sets error of last layer
-            currentError = (Vector) grad.PointwiseMultiply(currentError);
+            currentError = (Vector)grad.PointwiseMultiply(currentError);
             errors.Add(currentError);
 
             //succesively sets errors in layers 
             for (int i = 0; i < layers-2; i++)
             {
-                //currentError = (Vector)weights[layers-2-i].TransposeThisAndMultiply(currentError);
-                //var applySigmaDiff = new DenseVector(weightedInputs[layers-2-i].Count);
-                //weightedInputs[layers - 2 - i].Map(SigmaDiff, applySigmaDiff);
-                //currentError = (Vector) currentError.PointwiseMultiply(applySigmaDiff);
-                //errors.Add(currentError);
                 var x = (Vector)weights[layers - 2 - i].TransposeThisAndMultiply(errors[i]);
-                var y = (Vector)weightedInputs[layers - 2 - i].Map(SigmaDiff);
+                var y = (Vector)weightedInputs[layers - 3 - i].Map(SigmaDiff);
                 errors.Add((Vector) x.PointwiseMultiply(y));
             }
             errors.Reverse();

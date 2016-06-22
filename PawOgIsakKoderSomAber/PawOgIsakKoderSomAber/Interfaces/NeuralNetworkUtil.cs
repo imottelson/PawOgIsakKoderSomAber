@@ -11,26 +11,26 @@ namespace PawOgIsakKoderSomAber.Interfaces
     {
         public Vector Evaluate(Vector input, List<Matrix> weights, List<Vector> biases)
         {
-            return EvaluateWithWeightedInputs(input, weights, biases)[weights.Count + 1];
+            return ComputeWeightedInputs(input, weights, biases)[weights.Count];
         }
 
         //Computes the output of the network and the weighted inputs along the way of each layer. The last vector is the output.
         //TODO: maybe takes a network as input? 
-        public List<Vector> EvaluateWithWeightedInputs(Vector input, List<Matrix> weights, List<Vector> biases)
+        public List<Vector> ComputeWeightedInputs(Vector input, List<Matrix> weights, List<Vector> biases)
         {
             int layers = weights.Count + 1;
 
-            //The entries in the result list correspond to the weighted input of a given layer, first vector is input
-            List<Vector> result = new List<Vector>(layers+1);
-            result.Add(input);
+            //The entries in the result list correspond to the weighted input of a given layer
+            List<Vector> result = new List<Vector>(layers);
+            var x = (Vector) weights[0].Multiply(input).Add(biases[0]);
+            result.Add(x);
             
-            //Vector currentLayer = input;
-            for (int i = 0; i < layers-1; i++)
+            for (int i = 1; i < layers-1; i++)
             {
-                var currentLayer = (Vector)weights[i].Multiply(result[i].Map(Sigma)).Add(biases[i]);
+                var currentLayer = (Vector)weights[i].Multiply(result[i-1].Map(Sigma)).Add(biases[i]);
                 result.Add(currentLayer);
             }
-            result.Add((Vector) result[layers-1].Map(Sigma));
+            result.Add((Vector) result[layers-2].Map(Sigma));
             return result;
         }
         public abstract double Sigma(double x);

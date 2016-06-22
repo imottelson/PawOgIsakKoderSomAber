@@ -35,9 +35,9 @@ namespace PawOgIsakKoderSomAber
                     var batch = trainingData.GetRange(j * batchSize, batchSize);
                     network.TrainNetwork(batch);
                 }
-                //Console.WriteLine("Output: " + network.Evaulate(trainingData[0].Input)+ "\n\r Target: " + trainingData[0].Output+"\n\r Cost: " + network.Utilities.Cost(trainingData,network.WeightsList,network.BiasesList));
-                Console.WriteLine(trainingData.Sum(x => x.Output[network.Evaulate(x.Input)]));
-                //Console.ReadKey();
+                Console.WriteLine("Epoch: "+k);
+                Console.WriteLine(trainingData.Sum(x => x.Output[network.Evaulate(x.Input)]) +" / " + length);
+                
             }
             Console.ReadKey();
 
