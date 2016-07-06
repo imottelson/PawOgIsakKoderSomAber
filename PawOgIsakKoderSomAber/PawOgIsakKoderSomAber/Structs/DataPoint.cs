@@ -11,11 +11,5 @@ namespace PawOgIsakKoderSomAber
     {
         public Vector Input;
         public Vector Output;
-
-        public DataPoint(object o)
-        {
-            Input = new DenseVector(new double[] {1.0,1.0});
-            Output = new DenseVector(new double[] {1.0});
-        }
     }
 }

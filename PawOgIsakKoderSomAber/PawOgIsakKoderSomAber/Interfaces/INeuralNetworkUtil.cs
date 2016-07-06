@@ -7,12 +7,23 @@ using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace PawOgIsakKoderSomAber.Interfaces
 {
-    interface INeuralNetworkUtil
+    public interface INeuralNetworkUtil
     {
-        Vector Evaluate(Vector input, List<Matrix> weights, List<Vector> biases);
 
         double Sigma(double x);
 
-        double Cost(List<DataPoint> data, List<Matrix> weights, List<Vector> biases);
+        double SigmaDiff(double x);
+
+        double Cost(List<DataPoint> data, NeuralNetwork network);
+
+        Vector Grad_a_Cost(Vector activation, Vector output);
+
+        List<Vector> ComputeWeightedInputs(Vector input, NeuralNetwork network);
+
+        List<Vector> ComputeErrors(DataPoint point, NeuralNetwork network, List<Vector> weightedInputs );
+
+        List<Matrix> Grad_w_Regularization(NeuralNetwork network);
+
+        Vector Evaluate(Vector input, NeuralNetwork network);
     }
 }
