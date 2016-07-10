@@ -17,3 +17,6 @@ C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\Pa
 C:\Machine Learning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\bin\Debug\PawOgIsakKoderSomAber.exe.config
 C:\Machine Learning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\obj\Debug\PawOgIsakKoderSomAber.exe
 C:\Machine Learning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\obj\Debug\PawOgIsakKoderSomAber.pdb
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\obj\Debug\PawOgIsakKoderSomAber.csprojResolveAssemblyReference.cache
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\bin\Debug\Newtonsoft.Json.dll
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\bin\Debug\Newtonsoft.Json.xml

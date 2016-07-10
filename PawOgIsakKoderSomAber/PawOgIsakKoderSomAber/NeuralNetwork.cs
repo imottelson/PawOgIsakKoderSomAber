@@ -5,22 +5,32 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Schema;
 using MathNet.Numerics.LinearAlgebra.Double;
+using Newtonsoft.Json;
 using PawOgIsakKoderSomAber.Interfaces;
 
 namespace PawOgIsakKoderSomAber
 {
+    [Serializable]
     public class NeuralNetwork
     {
+        public Guid uid;
+
         public double StepSize;
 
         public double RegularizationParameter;
 
+        //[JsonConverter(typeof(DenseVectorConverter))]
         public List<Vector> BiasesList;
 
         public List<Matrix> WeightsList;
 
+        private NeuralNetwork()
+        {
+        }
+
         private NeuralNetwork(double stepSize, double regularizationParameter =0)
         {
+            uid = Guid.NewGuid();
             StepSize = stepSize;
             RegularizationParameter = regularizationParameter;
         }

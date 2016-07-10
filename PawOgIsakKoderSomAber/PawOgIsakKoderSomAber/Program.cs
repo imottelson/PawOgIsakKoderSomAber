@@ -24,12 +24,12 @@ namespace PawOgIsakKoderSomAber
             NetworkHelper networkHelper = new NetworkHelper(networkUtilities);
 
 
-            int batchSize = 30;
+            int batchSize = 50;
             int epochs = 30;
             int length = trainingData.Count;
             int testLength = testData.Count;
 
-            //TODO: partition data into batches
+            
             for (int k=0;k<epochs;k++)
             {
                 
@@ -41,6 +41,8 @@ namespace PawOgIsakKoderSomAber
                 }
                 Console.WriteLine("Epoch: "+(k+1));
                 Console.WriteLine(testData.Sum(x => x.Output[networkHelper.Evaluate(x.Input,network).AbsoluteMaximumIndex()]) +" / " + testLength);
+                DatabaseHelper.SaveNetworkToDatabase(network,k+1);
+
                 
             }
             Console.ReadKey();
