@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra.Double;
 using Newtonsoft.Json;
 
@@ -18,20 +19,17 @@ namespace PawOgIsakKoderSomAber
 
         }
 
-        private void UpdateNetwork(SomNetwork network, Bmu bmu, Vector input)
+        public void UpdateNetwork(SomNetwork network, Bmu bmu, Vector input)
         {
-            var radius2 = network.Radius2*SomUtilities.Shrink(network.Time, network.Decay);
-            for (int i = 0; i < network.Height; i++)
+            var radius = network.Radius*SomUtilities.Shrink(network.Time, network.T0);
+            foreach (SomNode node in network.Weights)
             {
-                for (int j = 0; j < network.Width; j++)
+                if (Distance.Euclidean(bmu.Position,node.Position)<radius)
                 {
-                    if ((i-bmu.X)*(i-bmu.X) + (j-bmu.Y)*(j-bmu.Y) < radius2)
-                    {
-                        Vector delta = (Vector) (
-                            SomUtilities.Shrink(network.Time + Math.Sqrt((i - bmu.X) * (i - bmu.X) + (j - bmu.Y) * (j - bmu.Y)), network.Decay)*
-                            network.LearningRate * ( input- network.Weights[i, j]));
-                        network.Weights[i, j] = (Vector)(network.Weights[i, j] + delta);
-                    }
+                    Vector delta = (Vector) (
+                        SomUtilities.Shrink(network.Time + Distance.Euclidean(bmu.Position, node.Position), network.T0)*
+                        network.LearningRate * ( input- node.Weight));
+                    node.Weight = (Vector)(node.Weight + delta);
                 }
             }
         }
@@ -39,17 +37,14 @@ namespace PawOgIsakKoderSomAber
         public Bmu BestMatchingUnit(SomNetwork network, Vector input)
         {
             //Inelegant.
-            var bmu = new Bmu(0, 0, int.MaxValue);
-            for (int i = 0; i < network.Height; i++)
+            var bmu = new Bmu(){Distance = int.MaxValue};
+
+            foreach (SomNode node in network.Weights)
             {
-                for (int j = 0; j < network.Width; j++)
+                if (Distance.Euclidean(node.Weight , input) < bmu.Distance)
                 {
-                    if ((network.Weights[i, j] - input).L2Norm() < bmu.Distance)
-                    {
-                        bmu.X = i;
-                        bmu.Y = j;
-                        bmu.Distance = (network.Weights[i, j] - input).L2Norm();
-                    }
+                    bmu.Position = node.Position;
+                    bmu.Distance = Distance.Euclidean(node.Weight, input);
                 }
             }
             return bmu;

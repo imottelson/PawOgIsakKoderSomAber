@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MathNet.Numerics;
+using MathNet.Numerics.LinearAlgebra.Double;
 
 namespace PawOgIsakKoderSomAber
 {
-    public static class SomUtilities
+    public class SomNode
     {
-        public static double Shrink(double t, double decay)
-        {
-            return Math.Exp(-t/decay);
-        } 
+        public Vector Position;
+
+        public Vector Weight;
     }
 }

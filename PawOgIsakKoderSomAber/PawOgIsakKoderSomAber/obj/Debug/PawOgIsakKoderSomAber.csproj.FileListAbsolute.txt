@@ -20,6 +20,5 @@ C:\Machine Learning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSo
 C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\obj\Debug\PawOgIsakKoderSomAber.csprojResolveAssemblyReference.cache
 C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\bin\Debug\Newtonsoft.Json.dll
 C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\bin\Debug\Newtonsoft.Json.xml
-C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\obj\Debug\PawOgIsakKoderSomAber.Form1.resources
 C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\obj\Debug\PawOgIsakKoderSomAber.Properties.Resources.resources
 C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\PawOgIsakKoderSomAber\obj\Debug\PawOgIsakKoderSomAber.csproj.GenerateResource.Cache
