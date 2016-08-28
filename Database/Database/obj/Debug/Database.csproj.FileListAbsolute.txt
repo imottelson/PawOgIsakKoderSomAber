@@ -1,0 +1,10 @@
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\Database\Database\bin\Debug\NetworkDatabase.mdf
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\Database\Database\bin\Debug\NetworkDatabase_log.ldf
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\Database\Database\bin\Debug\Database.exe.config
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\Database\Database\bin\Debug\Database.exe
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\Database\Database\bin\Debug\Database.pdb
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\Database\Database\obj\Debug\Database.csprojResolveAssemblyReference.cache
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\Database\Database\obj\Debug\Database.Properties.Resources.resources
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\Database\Database\obj\Debug\Database.csproj.GenerateResource.Cache
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\Database\Database\obj\Debug\Database.exe
+C:\Git repository\MachineLearning\PawOgIsakKoderSomAber\Database\Database\obj\Debug\Database.pdb

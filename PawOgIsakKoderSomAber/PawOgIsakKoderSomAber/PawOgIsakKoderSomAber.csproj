@@ -54,26 +54,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bmu.cs" />
+    <Compile Include="SOM\Bmu.cs" />
     <Compile Include="DatabaseHelper.cs" />
     <Compile Include="DataHelper.cs" />
-    <Compile Include="NetworkHelper.cs" />
-    <Compile Include="NetworkIllustrator.cs" />
+    <Compile Include="NN\NetworkHelper.cs" />
+    <Compile Include="SOM\NetworkIllustrator.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SomHelper.cs" />
-    <Compile Include="SomNetwork.cs" />
-    <Compile Include="SomNode.cs" />
-    <Compile Include="SomUtilities.cs" />
+    <Compile Include="SOM\SomHelper.cs" />
+    <Compile Include="SOM\SomNetwork.cs" />
+    <Compile Include="SOM\SomNode.cs" />
+    <Compile Include="SOM\SomUtilities.cs" />
     <Compile Include="Structs\DataPoint.cs" />
-    <Compile Include="Interfaces\INeuralNetworkUtil.cs" />
-    <Compile Include="NeuralNetwork.cs" />
+    <Compile Include="NN\Interfaces\INeuralNetworkUtil.cs" />
+    <Compile Include="NN\NeuralNetwork.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NetworkUtilities.cs" />
+    <Compile Include="NN\NetworkUtilities.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
